@@ -1,12 +1,13 @@
 const container = document.querySelector(".image_container");
 const dropZone = document.querySelector(".drop_zone");
+const input = document.getElementById("image_input");
 
-let MAXIMUM_WIDTH = 0.85 * window.innerWidth - 50;
-let MAXIMUM_HEIGHT = 0.6 * window.innerHeight - 50;
+let MAXIMUM_WIDTH = 0.85 * window.innerWidth - 15;
+let MAXIMUM_HEIGHT = 0.7 * window.innerHeight - 15;
 
 const adjustDimension = (e) => {
-  MAXIMUM_WIDTH = 0.85 * window.innerWidth - 50;
-  MAXIMUM_HEIGHT = 0.6 * window.innerHeight - 50;
+  MAXIMUM_WIDTH = 0.85 * window.innerWidth - 15;
+  MAXIMUM_HEIGHT = 0.7 * window.innerHeight - 15;
 };
 
 window.addEventListener("resize", adjustDimension);
@@ -85,3 +86,4 @@ dropZone.addEventListener("dragover", dragOverHandler);
 dropZone.addEventListener("drop", dropHandler);
 dropZone.addEventListener("dragenter", dragEnterHandler);
 dropZone.addEventListener("dragleave", dragleaveHandler);
+input.addEventListener("change", (e) => appendImage(e.target.files[0]));
