@@ -1,5 +1,77 @@
-#drop_zone {
-  border: 5px solid blue;
-  width: 500px;
-  height: 300px;
+@import url("https://fonts.googleapis.com/css2?family=Roboto&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: "Roboto", sans-serif;
+}
+
+.drop_zone {
+  position: relative;
+  width: 85vw;
+  height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px dashed #4000a7;
+  border-radius: 0.3125rem;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+.drop_zone.dropping {
+  background-color: slategray;
+}
+
+input[type="file"] {
+  display: none;
+}
+
+.container {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.upload_btn {
+  display: block;
+}
+
+.image_container {
+  display: flex;
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+label[for="image_input"] {
+  display: inline-block;
+  max-width: 300px;
+  margin: 1.8rem 0;
+  padding: 1rem 1.5rem;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 2rem;
+  font-weight: 900;
+  line-height: 1.5;
+  cursor: pointer;
+  white-space: nowrap;
+  color: white;
+  background-color: #4000a7;
+  border-radius: 0.3125rem;
+}
+
+@media screen and (max-width: 380px) {
+  label[for="image_input"] {
+    font-size: 1.25rem;
+  }
+}
+@media screen and (max-width: 220px) {
+  label[for="image_input"] {
+    font-size: 0.8rem;
+  }
 }

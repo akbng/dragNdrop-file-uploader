@@ -1,11 +1,48 @@
-const canvas = document.getElementById("preview");
-const ctx = canvas.getContext("2d");
-const container = document.getElementById("container");
+const container = document.querySelector(".image_container");
+const dropZone = document.querySelector(".drop_zone");
+
+let MAXIMUM_WIDTH = 0.85 * window.innerWidth - 50;
+let MAXIMUM_HEIGHT = 0.6 * window.innerHeight - 50;
+
+const adjustDimension = (e) => {
+  MAXIMUM_WIDTH = 0.85 * window.innerWidth - 50;
+  MAXIMUM_HEIGHT = 0.6 * window.innerHeight - 50;
+};
+
+window.addEventListener("resize", adjustDimension);
+
+const clampDimensions = (width, height) => {
+  if (height > MAXIMUM_HEIGHT) {
+    const reducedWidth = Math.floor((width * MAXIMUM_HEIGHT) / height);
+    return [reducedWidth, MAXIMUM_HEIGHT];
+  }
+
+  if (width > MAXIMUM_WIDTH) {
+    const reducedHeight = Math.floor((height * MAXIMUM_WIDTH) / width);
+    return [MAXIMUM_WIDTH, reducedHeight];
+  }
+
+  return [width, height];
+};
+
+const appendImage = (file) => {
+  const reader = new FileReader();
+
+  reader.onload = (event) => {
+    const image = new Image();
+    image.onload = () => {
+      const [width, height] = clampDimensions(image.width, image.height);
+      image.width = width;
+      image.height = height;
+      container.appendChild(image);
+    };
+    image.src = event.target.result;
+  };
+  reader.readAsDataURL(file);
+};
 
 async function dropHandler(ev) {
-  console.log("File(s) dropped");
-
-  // Prevent default behavior (Prevent file from being opened)
+  dropZone.classList.remove("dropping");
   ev.preventDefault();
 
   if (ev.dataTransfer.items) {
@@ -15,27 +52,8 @@ async function dropHandler(ev) {
       if (ev.dataTransfer.items[i].kind === "file") {
         var file = ev.dataTransfer.items[i].getAsFile();
         console.log("... file[" + i + "].name = " + file.name);
-        // canvas.src = URL.createObjectURL(file);
 
-        // console.log(file.stream());
-        const reader = new FileReader();
-
-        reader.onload = (event) => {
-          const image = new Image();
-          image.onload = () => {
-            // const [width, height] = clampDimensions(image.width, image.height);
-            const { width, height } = image;
-            // canvas.width = width;
-            // canvas.height = height;
-            image.width = 300;
-            image.height = 120;
-            container.appendChild(image);
-            console.log(image);
-            // ctx.drawImage(image, 0, 0, width, height);
-          };
-          image.src = event.target.result;
-        };
-        reader.readAsDataURL(file);
+        appendImage(file);
       }
     }
   } else {
@@ -48,9 +66,22 @@ async function dropHandler(ev) {
   }
 }
 
-function dragOverHandler(ev) {
-  console.log("File(s) in drop zone");
+const dragOverHandler = (e) => {
+  dropZone.classList.add("dropping");
+  e.preventDefault();
+};
 
-  // Prevent default behavior (Prevent file from being opened)
-  ev.preventDefault();
-}
+const dragEnterHandler = (e) => {
+  e.preventDefault();
+  dropZone.classList.add("dropping");
+};
+
+const dragleaveHandler = (e) => {
+  e.preventDefault();
+  dropZone.classList.remove("dropping");
+};
+
+dropZone.addEventListener("dragover", dragOverHandler);
+dropZone.addEventListener("drop", dropHandler);
+dropZone.addEventListener("dragenter", dragEnterHandler);
+dropZone.addEventListener("dragleave", dragleaveHandler);

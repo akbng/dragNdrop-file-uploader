@@ -8,16 +8,18 @@
     <link rel="stylesheet" href="styles.css" />
   </head>
   <body>
-    <div
-      id="drop_zone"
-      ondrop="dropHandler(event);"
-      ondragover="dragOverHandler(event);"
-    >
-      <p>Drag one or more files to this Drop Zone ...</p>
+    <div class="container">
+      <div class="drop_zone">
+        <div class="wrapper">
+          <div class="upload_btn">
+            <label for="image_input">Upload Image</label>
+            <input type="file" id="image_input" />
+          </div>
+          <div class="drop_msg">or drop a file</div>
+          <div class="image_container"></div>
+        </div>
+      </div>
     </div>
-    <div id="container"></div>
-    <canvas id="preview" width="300" height="150"></canvas>
-    <!-- <img src="#" id="preview" /> -->
     <script src="app.js"></script>
   </body>
 </html>
