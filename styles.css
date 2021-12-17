@@ -49,6 +49,12 @@ input[type="file"] {
   inset: 0;
   overflow-x: scroll;
   overflow-y: hidden;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.image_container::-webkit-scrollbar {
+  display: none;
 }
 
 label[for="image_input"] {
